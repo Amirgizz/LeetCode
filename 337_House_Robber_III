@@ -1,0 +1,41 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    inline int get_val(TreeNode *t) {
+        if (t == nullptr) {
+            return 0;
+        }
+        return t->val;
+    }
+
+    inline int get_kids(TreeNode *t) {
+        if (t == nullptr) {
+            return 0;
+        }
+        return get_val(t->left) + get_val(t->right);
+    }
+
+    void dfs(TreeNode* v) {
+        if (v == nullptr) {
+            return;
+        }
+        dfs(v->left);
+        dfs(v->right);
+        v->val = max(v->val + get_kids(v->left) + get_kids(v->right), get_kids(v));
+    }
+
+    int rob(TreeNode* root) {
+        dfs(root);
+        return root->val;
+    }
+};
